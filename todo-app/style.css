@@ -1,0 +1,500 @@
+/* ===== 기본 설정 ===== */
+:root {
+  --bg: #f4f5f7;
+  --surface: #ffffff;
+  --border: #e1e4e8;
+  --text: #1f2328;
+  --text-muted: #4b5563;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --track: #e5e7eb;
+
+  /* 카테고리 색 */
+  --work: #2563eb;
+  --work-bg: #dbeafe;
+  --work-text: #1e40af;
+  --personal: #16a34a;
+  --personal-bg: #dcfce7;
+  --personal-text: #166534;
+  --study: #9333ea;
+  --study-bg: #f3e8ff;
+  --study-text: #6b21a8;
+
+  --radius: 10px;
+  --gap: 12px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* 화면에는 숨기고 스크린 리더에만 노출 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ===== 레이아웃 ===== */
+.app {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ===== 1) 헤더 ===== */
+.app-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+}
+
+.app-title {
+  margin: 0;
+  font-size: 1.75rem;
+  line-height: 1.25;
+}
+
+.app-date {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* ===== 2) 입력 줄 ===== */
+.todo-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.todo-input,
+.todo-category {
+  height: 44px;
+  padding: 0 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.todo-input {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.todo-category {
+  flex: 0 0 auto;
+}
+
+/* 빈 입력으로 추가를 시도했을 때 */
+.todo-input.is-invalid {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+  outline-color: #dc2626;
+}
+
+/* 색만으로 알리지 않도록 오류 문구를 함께 표시 */
+.form-error {
+  flex: 1 1 100%;
+  margin: 0;
+  color: #b91c1c;
+  font-size: 0.85rem;
+}
+
+.form-error::before {
+  content: "⚠ ";
+}
+
+/* ===== 저장 불가 안내 ===== */
+.storage-notice {
+  margin: 0;
+  padding: 10px 12px;
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: var(--radius);
+  color: #92400e;
+  font-size: 0.9rem;
+}
+
+/* ===== 버튼 ===== */
+.btn {
+  height: 44px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  height: 38px;
+}
+
+.btn-ghost:hover {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.btn-icon {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.btn-icon:hover {
+  background: var(--track);
+  color: var(--text);
+}
+
+.btn-icon.todo-delete:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-ghost:disabled:hover {
+  background: transparent;
+  color: var(--text-muted);
+}
+
+/* ===== 3) 진행률 ===== */
+.progress {
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.progress-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.progress-label {
+  font-weight: 600;
+}
+
+.progress-value {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.bar {
+  width: 100%;
+  background: var(--track);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.bar-lg {
+  height: 12px;
+}
+
+.bar-sm {
+  height: 6px;
+}
+
+.bar-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: inherit;
+  transition: width 0.3s ease;
+}
+
+.progress-complete {
+  margin: 0;
+  padding: 8px 12px;
+  background: var(--personal-bg);
+  border-radius: 8px;
+  color: var(--personal-text);
+  font-weight: 600;
+  text-align: center;
+}
+
+.progress-categories {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap);
+}
+
+.progress-cat .progress-label {
+  font-size: 0.9rem;
+}
+
+.progress-cat .progress-value {
+  font-size: 0.8rem;
+}
+
+.progress-cat[data-category="work"] .bar-fill {
+  background: var(--work);
+}
+
+.progress-cat[data-category="personal"] .bar-fill {
+  background: var(--personal);
+}
+
+.progress-cat[data-category="study"] .bar-fill {
+  background: var(--study);
+}
+
+/* ===== 4) 필터 탭 ===== */
+.filters {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+  padding: 4px;
+  background: var(--track);
+  border-radius: var(--radius);
+}
+
+.filter-tab {
+  height: 38px;
+  padding: 0 8px;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.filter-count {
+  margin-left: 2px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.filter-tab:hover {
+  color: var(--text);
+}
+
+.filter-tab.is-active {
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== 5) 할 일 목록 ===== */
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.todo-check {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.todo-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.todo-item.is-done .todo-text {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.todo-item.is-done .badge {
+  opacity: 0.6;
+}
+
+/* 수정 모드: 좁은 화면에서는 입력창이 한 줄, 나머지가 아래 줄 */
+.todo-item.is-editing {
+  border-color: var(--primary);
+}
+
+.todo-edit-form {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.todo-edit-input {
+  flex: 1 1 200px;
+  height: 38px;
+}
+
+.todo-edit-category {
+  height: 38px;
+}
+
+/* 카테고리 배지: 색 + 글자 함께 표시 */
+.badge {
+  flex: 0 0 auto;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-work {
+  background: var(--work-bg);
+  color: var(--work-text);
+}
+
+.badge-personal {
+  background: var(--personal-bg);
+  color: var(--personal-text);
+}
+
+.badge-study {
+  background: var(--study-bg);
+  color: var(--study-text);
+}
+
+.empty-message {
+  margin: 0;
+  padding: 32px 12px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.list-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+/* ===== 반응형 ===== */
+@media (max-width: 480px) {
+  .app {
+    padding: 16px 12px 32px;
+    gap: 16px;
+  }
+
+  .app-title {
+    font-size: 1.5rem;
+  }
+
+  /* 입력창은 한 줄 전체, 카테고리와 추가 버튼은 그 아래 줄 */
+  .todo-input {
+    flex-basis: 100%;
+  }
+
+  .todo-category {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .progress {
+    padding: 12px;
+  }
+
+  .progress-categories {
+    gap: 8px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .app {
+    padding-top: 48px;
+  }
+}

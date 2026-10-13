@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>오늘의 할 일</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+
+    <!-- localStorage를 쓸 수 없을 때만 표시 -->
+    <p class="storage-notice" id="storage-notice" role="status" hidden>저장되지 않습니다. 이 창을 닫거나 새로고침하면 할 일이 사라집니다.</p>
+
+    <!-- 1) 헤더 -->
+    <header class="app-header">
+      <h1 class="app-title">오늘의 할 일</h1>
+      <!-- 날짜는 이후 단계에서 JS로 채움 (지금은 정적 표시) -->
+      <time class="app-date" id="today-date" datetime="2026-10-06">2026년 10월 6일 화요일</time>
+    </header>
+
+    <!-- 2) 입력 줄 -->
+    <form class="todo-form" id="todo-form" autocomplete="off">
+      <label class="sr-only" for="todo-input">할 일 내용</label>
+      <input
+        class="todo-input"
+        id="todo-input"
+        type="text"
+        maxlength="100"
+        placeholder="할 일을 입력하세요"
+        aria-describedby="input-error"
+      >
+
+      <label class="sr-only" for="todo-category">카테고리</label>
+      <select class="todo-category" id="todo-category">
+        <option value="work">업무</option>
+        <option value="personal">개인</option>
+        <option value="study">공부</option>
+      </select>
+
+      <button class="btn btn-primary" id="add-btn" type="submit" aria-label="할 일 추가">추가</button>
+
+      <!-- 빈 입력으로 추가를 시도했을 때만 표시 -->
+      <p class="form-error" id="input-error" role="alert" hidden>할 일 내용을 입력해 주세요.</p>
+    </form>
+
+    <!-- 3) 진행률 영역 -->
+    <section class="progress" aria-labelledby="progress-heading">
+      <h2 class="sr-only" id="progress-heading">진행률</h2>
+
+      <div class="progress-total">
+        <div class="progress-head">
+          <span class="progress-label">전체 진행률</span>
+          <span class="progress-value" id="progress-total-text">0/0 · 0%</span>
+        </div>
+        <div class="bar bar-lg" role="progressbar" aria-label="전체 진행률" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="bar-fill" id="progress-total-bar" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <ul class="progress-categories">
+        <li class="progress-cat" data-category="work">
+          <div class="progress-head">
+            <span class="progress-label">업무</span>
+            <span class="progress-value" id="progress-work-text">0/0</span>
+          </div>
+          <div class="bar bar-sm" role="progressbar" aria-label="업무 진행률" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="bar-fill" id="progress-work-bar" style="width: 0%"></div>
+          </div>
+        </li>
+        <li class="progress-cat" data-category="personal">
+          <div class="progress-head">
+            <span class="progress-label">개인</span>
+            <span class="progress-value" id="progress-personal-text">0/0</span>
+          </div>
+          <div class="bar bar-sm" role="progressbar" aria-label="개인 진행률" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="bar-fill" id="progress-personal-bar" style="width: 0%"></div>
+          </div>
+        </li>
+        <li class="progress-cat" data-category="study">
+          <div class="progress-head">
+            <span class="progress-label">공부</span>
+            <span class="progress-value" id="progress-study-text">0/0</span>
+          </div>
+          <div class="bar bar-sm" role="progressbar" aria-label="공부 진행률" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="bar-fill" id="progress-study-bar" style="width: 0%"></div>
+          </div>
+        </li>
+      </ul>
+
+      <!-- 전체 100% 달성 시에만 표시 -->
+      <p class="progress-complete" id="progress-complete" role="status" hidden>오늘 할 일을 모두 끝냈어요!</p>
+    </section>
+
+    <!-- 4) 필터 탭 -->
+    <nav class="filters" aria-label="카테고리 필터">
+      <!-- 숫자는 미완료 개수 (JS가 채움) -->
+      <button class="filter-tab is-active" type="button" data-filter="all" aria-pressed="true" aria-label="전체 보기">전체 <span class="filter-count">0</span></button>
+      <button class="filter-tab" type="button" data-filter="work" aria-pressed="false" aria-label="업무 보기">업무 <span class="filter-count">0</span></button>
+      <button class="filter-tab" type="button" data-filter="personal" aria-pressed="false" aria-label="개인 보기">개인 <span class="filter-count">0</span></button>
+      <button class="filter-tab" type="button" data-filter="study" aria-pressed="false" aria-label="공부 보기">공부 <span class="filter-count">0</span></button>
+    </nav>
+
+    <!-- 5) 할 일 목록 -->
+    <section class="list-section" aria-labelledby="list-heading">
+      <h2 class="sr-only" id="list-heading">할 일 목록</h2>
+
+      <ul class="todo-list" id="todo-list"></ul>
+      <p class="empty-message" id="empty-message">오늘 할 일을 추가해 보세요</p>
+
+      <div class="list-footer">
+        <button class="btn btn-ghost" id="clear-done-btn" type="button" aria-label="완료 항목 지우기">완료 항목 지우기</button>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
