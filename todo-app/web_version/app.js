@@ -418,3 +418,6 @@ els.clearDone.addEventListener("click", () => {
 load();
 renderDate();
 render();
+// 데스크톱(1024px 이상)에서는 바로 입력할 수 있게 입력창에 포커스.
+// 모바일에서는 화면 키보드가 갑자기 올라오지 않도록 하지 않는다.
+if (window.matchMedia("(min-width: 1024px)").matches) els.input.focus();
